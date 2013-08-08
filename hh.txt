@@ -1,7 +1,12 @@
 плагины, например, такие:
 
 1. ping(address, packet_count, timeout, crit_rt, crit_pl, warn_rt, warn_pl) 
-2. tcp_port_connect(address, port, timeout,  crit_time, warn_time)
+2. tcp(address, port, timeout,  crit_time, warn_time)
 3. http_data(address, port, timeout, expected_data, crit_time, warn_time, max_data_size?)
 4. http_status(address, port, timeout, expected_status, crit_time, warn_time)
 
+my_plugin = plugins.class(param1='foo', param2='bar')
+
+
+плагины должны иметь классы аргументов для валидации
+clean_value = args.class('dirty_value') - если косяк - должен бросаться эксепшен
