@@ -4,11 +4,10 @@ from args import address, port
 
 
 class plugin(plugin_base):
-    use_args = (address, port,)
+    use_args = (address, port)
     description = "Simple TCP plugin for HH"
+    status = -1
+    data = None
 
     def check(self):
-        return 0, 'Pending'
-
-
-
+        return self.status, self.data
