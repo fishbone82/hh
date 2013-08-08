@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import plugins
-tcp = plugins.tcp(host='fishbone.me', port=80)
-print tcp.description
+tcp = plugins.tcp(address='fishbone.me', port=80)
+print tcp.args
 
 

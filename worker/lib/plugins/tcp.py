@@ -4,7 +4,7 @@ from args import address
 
 
 class plugin(plugin_base):
-    use_args = [address]
+    use_args = (address,)
     description = "Simple TCP plugin for HH"
 
 

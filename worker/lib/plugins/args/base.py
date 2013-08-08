@@ -4,11 +4,8 @@
 class plugin_arg():
     name = None
     default = None
-    force_default = 0  # replace value by default if validation failed
-    value = None
+    mandatory = 0       # by default args is not mandatory
+    force_default = 0   # replace value by default if validation failed
 
-    def __init__(self):
-        pass
-
-    def validate(self):
-        pass
+    def validate(self, dirty_value):
+        return dirty_value
