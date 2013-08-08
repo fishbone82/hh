@@ -1,3 +1,4 @@
-from tcp import tcp_plugin
-tcp = tcp_plugin
+import tcp
+tcp = tcp.plugin
+
 

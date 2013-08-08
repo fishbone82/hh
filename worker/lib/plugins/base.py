@@ -1,5 +1,5 @@
 # Base class for HH plugins
 
 
-class plugin():
+class plugin_base():
     pass

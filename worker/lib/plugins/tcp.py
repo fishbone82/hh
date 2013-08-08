@@ -1,7 +1,7 @@
 # tcp plugin for hh
-from base import plugin
+from base import plugin_base
 
 
-class tcp_plugin(plugin):
+class plugin(plugin_base):
     description = "Simple TCP plugin for HH"
 
