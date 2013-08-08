@@ -7,5 +7,8 @@ class plugin(plugin_base):
     use_args = (address, port,)
     description = "Simple TCP plugin for HH"
 
+    def check(self):
+        return 0, 'Pending'
+
 
 

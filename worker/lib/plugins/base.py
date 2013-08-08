@@ -16,6 +16,9 @@ class plugin_base():
                 raise PluginArgumentValidation('Mandatory argument \'%s\' missed' % (arg.name,))
             self.args[arg.name] = arg.validate(self.dirty_args[arg.name])
 
+    def check(self):
+        return -1, "Unconfigured plugin"
+
 
 class PluginArgumentValidation(Exception):
     pass
