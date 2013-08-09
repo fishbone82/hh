@@ -23,3 +23,18 @@ clean_value = args.class('dirty_value').validate() - если косяк - до�
     - чайлд берет таск, идет к воркеру, получает данные и складывает в базу (noSQL?)
 
 
+DB mysql -uhh -phhdbpass
+hosts:
+    host_id
+    user_id
+    address
+    description
+
+checks:
+    check_id
+    host_id
+    state
+    check_interval
+    next_check
+
+
