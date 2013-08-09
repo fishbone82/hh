@@ -3,6 +3,8 @@ class plugin_base():
     description = 'HH plugin'
     use_args = {}  # args classes to use
     args = {}
+    status = -1
+    data = None
 
     def __init__(self, **dirty_args):
         self.dirty_args = dirty_args
@@ -11,13 +13,21 @@ class plugin_base():
     def make_args(self):
         for arg_class in self.use_args:
             arg = arg_class()
-            if (not arg.name in self.dirty_args) and arg.mandatory:
-                # TODO: We must handle it!
-                raise PluginArgumentValidation('Mandatory argument \'%s\' missed' % (arg.name,))
-            self.args[arg.name] = arg.validate(self.dirty_args[arg.name])
+            if not arg.name in self.dirty_args:
+                if arg.mandatory:
+                    # TODO: We must handle it somewhere!
+                    raise PluginArgumentValidation('Mandatory argument \'%s\' missed' % (arg.name,))
+                else:
+                    self.args[arg.name] = arg.default_value
+            else:
+                self.args[arg.name] = arg.validate(self.dirty_args[arg.name])
 
     def check(self):
-        return -1, "Unconfigured plugin"
+        self.process()
+        return self.status, self.data
+
+    def process(self):
+        pass
 
 
 class PluginArgumentValidation(Exception):
