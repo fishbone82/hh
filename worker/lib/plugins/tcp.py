@@ -17,7 +17,7 @@ class plugin(plugin_base):
             self.status = 2
             self.data = 'Connection timed out'
             return
-        time_spent = time() - start_time
+        time_spent = float('%.3f' % (time() - start_time))
         self.data = {"time_spent": time_spent}
 
         # result processing

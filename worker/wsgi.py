@@ -10,16 +10,37 @@ import plugins
 
 def worker(req):
     resp = Response(content_type='application/json', charset='utf8')
+    (err, result) = process(req)
+    if err:
+        resp.content_type = 'text/html'
+        resp.app_iter = str(err)
+    else:
+        resp.app_iter = json.dumps(result)
+    return resp
+
+
+def process(req):
+    error = None
+
+    # Trying to get plugin class if exists
     try:
         plugin_class = getattr(plugins, req.matchdict['plugin_name'])
     except AttributeError:
-        return Response('Invalid plugin name: %s' % req.matchdict['plugin_name'])
+        return str("Invalid plugin name: %s\n" % req.matchdict['plugin_name']), None
 
-    plugin = plugin_class(**req.params.mixed())
-    result = plugin.check()
+    # Getting plugin object
+    try:
+        plugin = plugin_class(**req.params.mixed())
+    except Exception as e:
+        return str("Can't create plugin object: %s\n" % e.message), None
 
-    resp.app_iter = json.dumps(result)
-    return resp
+    # Getting result
+    try:
+        result = plugin.check()
+    except Exception as e:
+        return str("Can't get result from plugin: %s\n" % e.message), None
+
+    return error, result
 
 if __name__ == '__main__':
     config = Configurator()
