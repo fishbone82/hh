@@ -17,6 +17,10 @@ class plugin(plugin_base):
             self.status = 2
             self.data = 'Connection timed out'
             return
+        except socket.error:
+            self.status = 2
+            self.data = "Socket error(can't resolve?)"
+            return
         time_spent = float('%.3f' % (time() - start_time))
         self.data = {"time_spent": time_spent}
 
