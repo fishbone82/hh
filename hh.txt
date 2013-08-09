@@ -10,3 +10,8 @@ my_plugin = plugins.class(param1='foo', param2='bar')
 
 плагины должны иметь классы аргументов для валидации
 clean_value = args.class('dirty_value').validate() - если косяк - должен бросаться эксепшен
+
+легкое веб-приложение должно
+ - принимать GET /plugin_name?param1=foo&param2=bar,
+ - возвращать json {status => 1, data => {..}}
+ - логировать куда-то

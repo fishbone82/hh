@@ -8,4 +8,4 @@ class plugin_arg():
     force_default = 0   # replace value by default if validation failed
 
     def validate(self, dirty_value):
-        return dirty_value
+        return dirty_value # TODO: we must validate it somehow!

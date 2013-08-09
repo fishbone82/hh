@@ -1,5 +1,4 @@
 # tcp plugin for HH
-#from base import plugin_base
 from base import *
 from args import address, port, timeout, critical_time, warning_time
 
