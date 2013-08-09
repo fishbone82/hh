@@ -1,3 +1,7 @@
+from time import time
+import socket
+
+
 class plugin_base():
     """ Base class for HH plugins"""
     description = 'HH plugin'

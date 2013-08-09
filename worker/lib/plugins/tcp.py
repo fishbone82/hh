@@ -1,12 +1,11 @@
 # tcp plugin for HH
-from base import plugin_base
-from args import address, port, timeout
-from time import time
-import socket
+#from base import plugin_base
+from base import *
+from args import address, port, timeout, critical_time, warning_time
 
 
 class plugin(plugin_base):
-    use_args = (address, port, timeout)
+    use_args = (address, port, timeout, critical_time, warning_time)
     description = "Simple TCP plugin for HH"
 
     def process(self):
@@ -18,6 +17,14 @@ class plugin(plugin_base):
         except socket.timeout:
             self.status = 2
             self.data = 'Connection timed out'
+            return
         time_spent = time() - start_time
-        self.status = 0
         self.data = {"time_spent": time_spent}
+
+        # result processing
+        if time_spent > self.args['critical_time']:
+            self.status = 2
+        elif time_spent > self.args['warning_time']:
+            self.status = 1
+        else:
+            self.status = 0
