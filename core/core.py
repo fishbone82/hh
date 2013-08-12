@@ -1,15 +1,17 @@
 #!/usr/bin/python
 # HH Core daemon
-from multiprocessing import Process
-import sys
-sys.path.append('lib')
-import child
-import db
 from time import sleep
 import daemon
 import lockfile
 import signal
 import os
+from multiprocessing import Process
+
+import sys
+sys.path.append('lib')
+import child
+import db
+
 
 # stdout = open('/tmp/stdout', 'a')
 stdout = sys.stdout
@@ -18,7 +20,6 @@ max_chld = 1
 PIDFILE = '/tmp/hh_core.pid'
 DAEMON_NAME = '/usr/bin/python ./core.py'
 children = []
-
 
 
 def sigterm(signum, frame):
@@ -36,7 +37,6 @@ def lock_pidfile(filename):
     try:
         pidfile.acquire(1)
     except lockfile.LockTimeout:
-        print "lock timeout. try to release if possible"
         # Lock timeout. We must read pid from file and decide is it valid or not
         try:
             f = open(filename + '.lock', 'r')
@@ -48,19 +48,14 @@ def lock_pidfile(filename):
             ps_info = os.popen("ps -p %s -o command h" % str(pid))
             pid_command = ps_info.read().rstrip()
 
-            print "pid_command for pid in pidfile: %s" % pid_command
-
             if pid_command == DAEMON_NAME:
                 print "Can't start core - another process with PID %s already running" % pid
                 exit(1)
-            print "'%s' == '%s'" %( pid_command, DAEMON_NAME )
             raise Exception("rotten pidfile")
-        except Exception as e:
+        except Exception:
             # Couldn't read file - delete it and try to lock again!
-            print "can't read pidfile or it's rotten. I will remove it(%s)" % e.message
             os.remove(filename + '.lock')
             return lock_pidfile(filename)
-    print "lock acquired"
     return pidfile
 
 context = daemon.DaemonContext(
