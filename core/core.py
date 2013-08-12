@@ -1,4 +1,4 @@
-# HH Core
+# HH Core daemon
 from multiprocessing import Process
 import sys
 sys.path.append('lib')
@@ -44,19 +44,11 @@ with context:
         new_child = Process(target=child.target, name=child.get_name(i), args=(i,))
         new_child.start()
         children.append(new_child)
-        #new_child.join()
 
     # Master process' main loop
     while 1:
         print "ZZzz.."
         sleep(1)
-
-
-
-
-# max_chld = 2
-#
-
 
 # db sample
 # c = db.Checks(host_id=1, state='-1', plugin='tcp')
