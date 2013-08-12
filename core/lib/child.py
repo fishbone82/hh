@@ -17,7 +17,7 @@ def target(child_id):
 
     while True:
         print "I am child %s" % child_id
-        sleep(3)
+        sleep(10)
 
 
 def get_name(child_id):
