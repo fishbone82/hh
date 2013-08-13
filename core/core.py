@@ -13,13 +13,17 @@ import child
 import db
 
 
-# stdout = open('/tmp/stdout', 'a')
-stdout = sys.stdout
+stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
 max_chld = 1
 PIDFILE = '/tmp/hh_core.pid'
-DAEMON_NAME = '/usr/bin/python ./core.py'
 children = []
+
+
+def get_proc_name(pid):
+    ps_info = os.popen("ps -p %s -o command hc" % str(pid))
+    proc_name = ps_info.read().rstrip()
+    return proc_name
 
 
 def sigterm(signum, frame):
@@ -45,10 +49,8 @@ def lock_pidfile(filename):
             if not pid or not int(pid) > 0:
                 raise Exception("invalid pid in pidfile")
 
-            ps_info = os.popen("ps -p %s -o command h" % str(pid))
-            pid_command = ps_info.read().rstrip()
-
-            if pid_command == DAEMON_NAME:
+            #check if proc_name of pid in pidfile equals to self proc_name
+            if get_proc_name(pid) == get_proc_name(os.getpid()):
                 print "Can't start core - another process with PID %s already running" % pid
                 exit(1)
             raise Exception("rotten pidfile")
@@ -58,32 +60,33 @@ def lock_pidfile(filename):
             return lock_pidfile(filename)
     return pidfile
 
-context = daemon.DaemonContext(
-    working_directory='/',
-    umask=0o002,
-    pidfile=lock_pidfile(PIDFILE),
-    stdout=stdout,
-    stderr=stdout,
-    signal_map={
-        signal.SIGTERM: sigterm,
-    }
-)
 
+if __name__ == '__main__':
+    context = daemon.DaemonContext(
+        working_directory='/',
+        umask=0o002,
+        pidfile=lock_pidfile(PIDFILE),
+        stdout=stdout,
+        stderr=stdout,
+        signal_map={
+            signal.SIGTERM: sigterm,
+        }
+    )
 
-with context:
-    f = open(context.pidfile.path + '.lock', 'w')
-    f.write(str(os.getpid()))
-    f.close()
-    # Make children
-    for i in xrange(max_chld):
-        new_child = Process(target=child.target, name=child.get_name(i), args=(i,))
-        new_child.start()
-        children.append(new_child)
+    with context:
+        f = open(context.pidfile.path + '.lock', 'w')
+        f.write(str(os.getpid()))
+        f.close()
+        # Make children
+        for i in xrange(max_chld):
+            new_child = Process(target=child.target, name=child.get_name(i), args=(i,))
+            new_child.start()
+            children.append(new_child)
 
-    # Master process' main loop
-    while 1:
-        print "ZZzz.."
-        sleep(5)
+        # Master process' main loop
+        while 1:
+            print "ZZzz.."
+            sleep(5)
 
 # db sample
 # c = db.Checks(host_id=1, state='-1', plugin='tcp')
