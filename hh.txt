@@ -41,5 +41,7 @@ checks:
     state
     check_interval
     next_check
+    plugin
+    args
 
 

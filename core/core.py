@@ -7,7 +7,8 @@ import signal
 import os
 import sys
 import child
-from multiprocessing import Process
+import db
+from multiprocessing import Process, Queue
 
 stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
@@ -70,16 +71,25 @@ if __name__ == '__main__':
     )
 
     with context:
+        # Write our pid to pidfile
         f = open(context.pidfile.path + '.lock', 'w')
         f.write(str(os.getpid()))
         f.close()
+
+        # Create task queue
+        task_queue = Queue()
+
         # Make children
         for i in xrange(max_chld):
-            new_child = Process(target=child.target, name=child.get_name(i), args=(i,))
+            new_child = Process(target=child.target, name=child.get_name(i), args=(i, task_queue))
             new_child.start()
             children.append(new_child)
 
+        # Create DB session
+        db_session = db.Session()
+
         # Master process' main loop
-        while 1:
-            print "ZZzz.."
+        while True:
+            for check in db_session.query(db.Checks).order_by(db.Checks.check_id):
+                task_queue.put({'check_id': int(check.check_id), 'plugin': check.plugin, 'args': check.args})
             sleep(5)
