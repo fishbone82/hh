@@ -5,13 +5,9 @@ import daemon
 import lockfile
 import signal
 import os
-from multiprocessing import Process
-
 import sys
-sys.path.append('lib')
 import child
-import db
-
+from multiprocessing import Process
 
 stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
