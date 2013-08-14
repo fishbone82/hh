@@ -9,9 +9,10 @@ class Check(Base):
     check_id = Column(Integer, primary_key=True)
     host_id = Column(Integer)
     state = Column(Enum('-1', '0', '1', '2'))
-    plugin = Column(String)
     check_interval = Column(Integer)
     next_check = Column(TIMESTAMP)
+    plugin = Column(String)
+    args = Column(String)
 
     def __init__(self, host_id, state,  plugin,  next_check=None, check_interval=600):
         self.host_id = host_id
