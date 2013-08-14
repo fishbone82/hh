@@ -1,15 +1,12 @@
-import address
+from worker.plugins.args import address, timeout, warning_time, port, critical_time
+
 address = address.arg
 
-import port
 port = port.arg
 
-import timeout
 timeout = timeout.arg
 
-import critical_time
 critical_time = critical_time.arg
 
-import warning_time
 warning_time = warning_time.arg
 

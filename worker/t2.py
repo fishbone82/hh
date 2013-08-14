@@ -1,5 +1,6 @@
 #!/usr/bin/python
-import plugins
+from worker import plugins
+
 tcp = plugins.tcp(
     address='ebay.com',
     port=80,

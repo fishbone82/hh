@@ -1,5 +1,5 @@
 # warning_time argument for HH plugins
-from base import plugin_arg
+from worker.plugins.args.base import plugin_arg
 
 
 class arg(plugin_arg):

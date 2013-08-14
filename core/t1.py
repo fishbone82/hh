@@ -1,4 +1,4 @@
-from core import db
+import db
 
 session = db.Session()
 

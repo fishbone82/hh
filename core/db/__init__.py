@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from core.db import checks
+import checks
 
 Checks = checks.Check
 

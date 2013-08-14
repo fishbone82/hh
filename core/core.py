@@ -83,10 +83,3 @@ if __name__ == '__main__':
         while 1:
             print "ZZzz.."
             sleep(5)
-
-# db sample
-# c = db.Checks(host_id=1, state='-1', plugin='tcp')
-# print c.check_interval
-# session = db.Session()
-# session.add(c)
-# session.flush()
