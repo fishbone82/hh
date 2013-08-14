@@ -94,8 +94,3 @@ if __name__ == '__main__':
 # session = db.Session()
 # session.add(c)
 # session.flush()
-
-
-
-
-
