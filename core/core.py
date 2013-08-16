@@ -12,9 +12,9 @@ from multiprocessing import Process, Queue
 
 stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
-max_chld = 1
+max_chld = 3
 PIDFILE = '/tmp/hh_core.pid'
-children = []
+children = {}
 
 
 def get_proc_name(pid):
@@ -25,12 +25,17 @@ def get_proc_name(pid):
 
 def sigterm(signum, frame):
     """ SIGTERM Handler """
-    print "master caught sigterm"
-    for chld in children:
-        print "terminating child.."
-        chld.terminate()
-        chld.join()
+    print "[master] Caught sigterm!"
+    for (pid, chld) in children.items():
+        if chld.is_alive():
+            print "[master] Terminating child %s" %pid
+            chld.terminate()
+            chld.join()
     exit()
+
+
+def sigchld(signum, frame):
+    map(lambda child: child.is_alive(), children.values())  # reap zombies
 
 
 def lock_pidfile(filename):
@@ -67,6 +72,7 @@ if __name__ == '__main__':
         stderr=stdout,
         signal_map={
             signal.SIGTERM: sigterm,
+            signal.SIGCHLD: sigchld
         }
     )
 
@@ -76,20 +82,20 @@ if __name__ == '__main__':
         f.write(str(os.getpid()))
         f.close()
 
-        # Create task queue
-        task_queue = Queue()
-
-        # Make children
+        # Make a children
         for i in xrange(max_chld):
-            new_child = Process(target=child.target, name=child.get_name(i), args=(i, task_queue))
+            new_child = Process(
+                target=child.target,
+                # name=child.get_name(i),
+                args=()
+            )
             new_child.start()
-            children.append(new_child)
+            children[new_child.pid] = new_child
 
         # Create DB session
         db_session = db.Session()
 
         # Master process' main loop
         while True:
-            for check in db_session.query(db.Checks).order_by(db.Checks.check_id):
-                task_queue.put({'check_id': int(check.check_id), 'plugin': check.plugin, 'args': check.args})
-            sleep(5)
+            #for check in db_session.query(db.Checks).order_by(db.Checks.check_id):
+            sleep(10)

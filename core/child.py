@@ -1,26 +1,20 @@
 #HH core child
 from time import sleep
 import signal
+import os
 
 
 def sigterm(signum, frame):
     """ SIGTERM Handler """
-    print "child caught sigterm"
+    print "[child] %s caught sigterm!" % os.getpid()
     exit(0)
 
 
-def target(child_id, task_queue):
-    print "child created!"
+def target():
+    print "[child] %s created!" % os.getpid()
 
-    # signal handlers
     signal.signal(signal.SIGTERM, sigterm)
 
     while True:
-        #print "I am child %s" % child_id
-        task = task_queue.get()
-        if task is not None:
-            print "Child %s get task: %s" % (child_id, task)
-        sleep(1)
-
-def get_name(child_id):
-    return "hh_child_%s" % child_id
+        print "[child] %s Zzz.." % os.getpid()
+        sleep(3)
