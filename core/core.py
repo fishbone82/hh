@@ -12,7 +12,7 @@ from multiprocessing import Process, Queue
 
 stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
-max_chld = 3
+max_chld = 1
 PIDFILE = '/tmp/hh_core.pid'
 children = {}
 
@@ -31,11 +31,12 @@ def sigterm(signum, frame):
             print "[master] Terminating child %s" %pid
             chld.terminate()
             chld.join()
-    exit()
+    exit(0)
 
 
 def sigchld(signum, frame):
-    map(lambda child: child.is_alive(), children.values())  # reap zombies
+    print "SIGCHLD fired"
+    # map(lambda child: child.is_alive(), children.values())  # reap zombies
 
 
 def lock_pidfile(filename):
@@ -63,6 +64,30 @@ def lock_pidfile(filename):
     return pidfile
 
 
+def spawn_children():
+    # make sure that all children is alive; otherwise remove dead ones from children
+    print "spawn called!"
+    for (pid, chld) in children.items():
+        if not chld.is_alive():
+            del children[pid]
+
+    if len(children) >= max_chld:
+        print "spawn not needed"
+        return
+
+    while len(children) != max_chld:
+        print "spawning a child!"
+        new_child = Process(
+            target=child.target,
+            # name=child.get_name(i),
+            args=()
+        )
+        new_child.daemon = True
+        new_child.start()
+        children[new_child.pid] = new_child
+        sleep(2)
+        print "[master] fuck yeah"
+
 if __name__ == '__main__':
     context = daemon.DaemonContext(
         working_directory='/',
@@ -73,7 +98,7 @@ if __name__ == '__main__':
         signal_map={
             signal.SIGTERM: sigterm,
             signal.SIGCHLD: sigchld
-        }
+        },
     )
 
     with context:
@@ -82,20 +107,13 @@ if __name__ == '__main__':
         f.write(str(os.getpid()))
         f.close()
 
-        # Make a children
-        for i in xrange(max_chld):
-            new_child = Process(
-                target=child.target,
-                # name=child.get_name(i),
-                args=()
-            )
-            new_child.start()
-            children[new_child.pid] = new_child
-
         # Create DB session
         db_session = db.Session()
-
+        print "BEFORE LOOP"
         # Master process' main loop
         while True:
+            print "before spawn!"
+            spawn_children()
             #for check in db_session.query(db.Checks).order_by(db.Checks.check_id):
-            sleep(10)
+            print "master sleep"
+            sleep(1000)

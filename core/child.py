@@ -2,12 +2,13 @@
 from time import sleep
 import signal
 import os
+import sys
 
 
 def sigterm(signum, frame):
     """ SIGTERM Handler """
     print "[child] %s caught sigterm!" % os.getpid()
-    exit(0)
+    sys.exit(5)
 
 
 def target():
@@ -16,5 +17,5 @@ def target():
     signal.signal(signal.SIGTERM, sigterm)
 
     while True:
-        print "[child] %s Zzz.." % os.getpid()
+        # print "[child] %s Zzz.." % os.getpid()
         sleep(3)
