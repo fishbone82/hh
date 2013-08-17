@@ -8,7 +8,7 @@ import sys
 def sigterm(signum, frame):
     """ SIGTERM Handler """
     print "[child] %s caught sigterm!" % os.getpid()
-    sys.exit(5)
+    exit(0)
 
 
 def target():
