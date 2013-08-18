@@ -3,7 +3,6 @@ from time import sleep
 import signal
 import os
 import sys
-import Queue
 
 
 def sigterm(signum, frame):
@@ -17,8 +16,6 @@ def target(task_queue):
     signal.signal(signal.SIGTERM, sigterm)
 
     while True:
-        try:
-            task = task_queue.get(timeout=1)
-            print "Child %s get task %s" % (os.getpid(), task['id'])
-        except Queue.Empty:
-            pass
+        task = task_queue.get()
+        check = task['check']
+        print "Child %s get task %s with args %s" % (os.getpid(), check.check_id, check.args_decoded())

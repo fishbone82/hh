@@ -12,7 +12,7 @@ from multiprocessing import Process, active_children, Event, Queue
 
 stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
-max_chld = 6
+max_chld = 2
 PIDFILE = '/tmp/hh_core.pid'
 SPAWN_ALLOWED = True
 
@@ -98,18 +98,16 @@ if __name__ == '__main__':
         f.write(str(os.getpid()))
         f.close()
 
-        # Create DB session
-        db_session = db.Session()
-
         # Create queue
         task_queue = Queue()
 
         print "\nMaster started: %s" % os.getpid()
 
-        i = 0
         while 1:
+            # spawn children if needed
             spawn_children(task_queue)
-            task_queue.put({'id': i})
-            i += 1
+
+            for check in db.session.query(db.Checks).order_by(db.Checks.check_id):
+                task_queue.put({'check': check})
+
             sleep(5)
-            #for check in db_session.query(db.Checks).order_by(db.Checks.check_id):
