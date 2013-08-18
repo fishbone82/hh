@@ -10,9 +10,11 @@ import child
 import db
 from multiprocessing import Process, active_children, Event, Queue
 
-stdout = sys.stdout  # open('/tmp/stdout', 'a')
+stdout = sys.stdout
+#stdout = open('/tmp/stdout', mode='w', buffering=0)
+
 stderr = stdout
-max_chld = 1
+max_chld = 3
 PIDFILE = '/tmp/hh_core.pid'
 SPAWN_ALLOWED = True
 
@@ -33,6 +35,9 @@ def sigterm(signum, frame):
             print "[master] Terminating child %s" % chld.pid
             chld.terminate()
             chld.join()
+    stdout.close()
+    stderr.close()
+
     exit(0)
 
 
@@ -108,4 +113,5 @@ if __name__ == '__main__':
             session = db.get_session()
             for check in session.query(db.Checks).order_by(db.Checks.check_id):
                 task_queue.put(check)
-            sleep(5)
+            session.close()
+            sleep(0.1)

@@ -4,7 +4,7 @@ Base = declarative_base()
 from sqlalchemy import Column, Integer, TIMESTAMP, Enum, String
 from workers import Worker
 from connection import Session
-session = Session()
+from sqlalchemy import text
 
 
 class Check(Base):
@@ -22,13 +22,24 @@ class Check(Base):
         return "G654hpx5"
 
     def get_workers(self):
+        session = Session()
         workers_list = json.loads(self.workers)
-        return session.query(Worker).filter(Worker.worker_id.in_(workers_list)).all()
+        workers = session.query(Worker).filter(Worker.worker_id.in_(workers_list)).all()
+        session.close()
+        return workers
 
     def args_dict(self):
         args_dict = json.loads(self.args)
         args_dict['token'] = self.generate_token()
         return args_dict
+
+    def update_results(self, results):
+        print results
+        session = Session()
+        self.next_check = text('NOW() + INTERVAL check_interval SECOND')
+        session.merge(self)
+        session.flush()
+        session.close()
 
     # def __init__(self, host_id, state,  plugin,  next_check=None, check_interval=600):
     #     self.host_id = host_id
