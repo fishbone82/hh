@@ -104,10 +104,8 @@ if __name__ == '__main__':
         print "\nMaster started: %s" % os.getpid()
 
         while 1:
-            # spawn children if needed
             spawn_children(task_queue)
             session = db.get_session()
             for check in session.query(db.Checks).order_by(db.Checks.check_id):
-                task_queue.put({'id': check.check_id, 'check': check})
-            print "Queue size: %s" % task_queue.qsize()
+                task_queue.put(check)
             sleep(5)

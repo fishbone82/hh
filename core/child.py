@@ -17,11 +17,12 @@ def target(task_queue):
     signal.signal(signal.SIGTERM, sigterm)
 
     while True:
-        task = task_queue.get()
-        check = task['check']
+        check = task_queue.get()
         for worker in check.get_workers():
             url = 'http://%s/check/%s' % (worker.address, check.plugin)
             r = requests.get(url, params=check.args_dict())
             print r.json()
+
+
 
         #print "Child %s get task %s for workers: %s" % (os.getpid(), check.check_id, check.get_workers())
