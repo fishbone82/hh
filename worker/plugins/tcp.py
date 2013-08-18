@@ -1,8 +1,8 @@
 # tcp plugin for HH
 import socket
 from time import time
-from worker.plugins.base import plugin_base
-from worker.plugins.args import address, port, timeout, critical_time, warning_time
+from base import plugin_base
+from args import address, port, timeout, critical_time, warning_time
 
 
 class plugin(plugin_base):

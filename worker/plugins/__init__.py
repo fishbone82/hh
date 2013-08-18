@@ -1,5 +1,4 @@
-from worker.plugins import tcp
-
+import tcp
 tcp = tcp.plugin
 
 
