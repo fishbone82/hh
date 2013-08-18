@@ -3,19 +3,22 @@ from time import sleep
 import signal
 import os
 import sys
+import Queue
 
 
 def sigterm(signum, frame):
     """ SIGTERM Handler """
     print "[child] %s caught sigterm!" % os.getpid()
-    exit(0)
+    os.abort()
 
 
-def target():
+def target(task_queue):
     print "[child] %s created!" % os.getpid()
-
     signal.signal(signal.SIGTERM, sigterm)
 
     while True:
-        # print "[child] %s Zzz.." % os.getpid()
-        sleep(3)
+        try:
+            task = task_queue.get(timeout=1)
+            print "Child %s get task %s" % (os.getpid(), task['id'])
+        except Queue.Empty:
+            pass

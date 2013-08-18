@@ -8,11 +8,11 @@ import os
 import sys
 import child
 import db
-from multiprocessing import Process, active_children
+from multiprocessing import Process, active_children, Event, Queue
 
 stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
-max_chld = 2
+max_chld = 6
 PIDFILE = '/tmp/hh_core.pid'
 SPAWN_ALLOWED = True
 
@@ -66,14 +66,16 @@ def lock_pidfile(filename):
     return pidfile
 
 
-def spawn_children():
-    # make sure that all children is alive; otherwise remove dead ones from children
+def spawn_children(queue):
+    # spawn children if allowed and needed
     global SPAWN_ALLOWED
     if SPAWN_ALLOWED and len(active_children()) < max_chld:
         while len(active_children()) != max_chld:
             new_child = Process(
                 target=child.target,
-                args=()
+                kwargs={
+                    "task_queue": queue,
+                },
             )
             new_child.start()
 
@@ -99,9 +101,15 @@ if __name__ == '__main__':
         # Create DB session
         db_session = db.Session()
 
+        # Create queue
+        task_queue = Queue()
+
         print "\nMaster started: %s" % os.getpid()
 
+        i = 0
         while 1:
-            spawn_children()
+            spawn_children(task_queue)
+            task_queue.put({'id': i})
+            i += 1
             sleep(5)
             #for check in db_session.query(db.Checks).order_by(db.Checks.check_id):
