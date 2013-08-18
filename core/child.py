@@ -18,4 +18,6 @@ def target(task_queue):
     while True:
         task = task_queue.get()
         check = task['check']
-        print "Child %s get task %s with args %s" % (os.getpid(), check.check_id, check.args_decoded())
+        for worker in check.get_workers():
+            print "I will work with worker %s" % worker.worker_id
+        #print "Child %s get task %s for workers: %s" % (os.getpid(), check.check_id, check.get_workers())

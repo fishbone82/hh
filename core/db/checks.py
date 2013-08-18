@@ -1,8 +1,10 @@
 from sqlalchemy.ext.declarative import declarative_base
 import json
-
 Base = declarative_base()
 from sqlalchemy import Column, Integer, TIMESTAMP, Enum, String
+from workers import Worker
+from connection import Session
+session = Session()
 
 
 class Check(Base):
@@ -20,9 +22,8 @@ class Check(Base):
 
     def get_workers(self):
         workers_list = self.args_decoded()['workers']
-
-    def __init__(self):
-        pass
+        self.workers = session.query(Worker).filter(Worker.worker_id.in_(workers_list)).all()
+        return self.workers
 
     # def __init__(self, host_id, state,  plugin,  next_check=None, check_interval=600):
     #     self.host_id = host_id

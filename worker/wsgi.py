@@ -3,7 +3,7 @@ import json
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import Response
-from worker import plugins
+import plugins
 
 sys.path.append('lib')
 
