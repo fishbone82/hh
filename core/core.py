@@ -101,13 +101,16 @@ if __name__ == '__main__':
         # Create queue
         task_queue = Queue()
 
+        # Create session
+        session = db.get_session()
+
         print "\nMaster started: %s" % os.getpid()
 
         while 1:
             # spawn children if needed
             spawn_children(task_queue)
 
-            for check in db.session.query(db.Checks).order_by(db.Checks.check_id):
+            for check in session.query(db.Checks).order_by(db.Checks.check_id):
                 task_queue.put({'check': check})
 
             sleep(5)
