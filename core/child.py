@@ -3,6 +3,7 @@ from time import sleep
 import signal
 import os
 import sys
+import requests
 
 
 def sigterm(signum, frame):
@@ -19,5 +20,8 @@ def target(task_queue):
         task = task_queue.get()
         check = task['check']
         for worker in check.get_workers():
-            print "I will work with worker %s" % worker.worker_id
+            url = 'http://%s/check/%s' % (worker.address, check.plugin)
+            r = requests.get(url, params=check.args_dict())
+            print r.json()
+
         #print "Child %s get task %s for workers: %s" % (os.getpid(), check.check_id, check.get_workers())

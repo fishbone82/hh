@@ -12,7 +12,7 @@ from multiprocessing import Process, active_children, Event, Queue
 
 stdout = sys.stdout  # open('/tmp/stdout', 'a')
 stderr = stdout
-max_chld = 2
+max_chld = 1
 PIDFILE = '/tmp/hh_core.pid'
 SPAWN_ALLOWED = True
 
@@ -37,7 +37,7 @@ def sigterm(signum, frame):
 
 
 def sigchld(signum, frame):
-    print "SIGCHLD fired for %s" % os.getpid()
+    #print "SIGCHLD fired for %s" % os.getpid()
     ignore = active_children()
 
 
@@ -101,16 +101,13 @@ if __name__ == '__main__':
         # Create queue
         task_queue = Queue()
 
-        # Create session
-        session = db.get_session()
-
         print "\nMaster started: %s" % os.getpid()
 
         while 1:
             # spawn children if needed
             spawn_children(task_queue)
-
+            session = db.get_session()
             for check in session.query(db.Checks).order_by(db.Checks.check_id):
-                task_queue.put({'check': check})
-
+                task_queue.put({'id': check.check_id, 'check': check})
+            print "Queue size: %s" % task_queue.qsize()
             sleep(5)

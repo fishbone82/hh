@@ -16,14 +16,19 @@ class Check(Base):
     next_check = Column(TIMESTAMP)
     plugin = Column(String)
     args = Column(String)
+    workers = Column(String)
 
-    def args_decoded(self):
-        return json.loads(self.args)
+    def generate_token(self):
+        return "G654hpx5"
 
     def get_workers(self):
-        workers_list = self.args_decoded()['workers']
-        self.workers = session.query(Worker).filter(Worker.worker_id.in_(workers_list)).all()
-        return self.workers
+        workers_list = json.loads(self.workers)
+        return session.query(Worker).filter(Worker.worker_id.in_(workers_list)).all()
+
+    def args_dict(self):
+        args_dict = json.loads(self.args)
+        args_dict['token'] = self.generate_token()
+        return args_dict
 
     # def __init__(self, host_id, state,  plugin,  next_check=None, check_interval=600):
     #     self.host_id = host_id
