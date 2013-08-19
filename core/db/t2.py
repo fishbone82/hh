@@ -1,5 +1,5 @@
 from checks import Check
-from connection import Session
+from connection import Session, Mongo
 session = Session()
 
 from sqlalchemy import text
@@ -13,3 +13,9 @@ session2 = Session()
 session2.merge(check)
 print session2.dirty
 session2.commit()
+
+mongo = Mongo
+db = mongo.mydb
+collection = db.TestData
+data = collection.find_one()
+print data['foo']  # bar

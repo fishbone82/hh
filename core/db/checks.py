@@ -37,6 +37,7 @@ class Check(Base):
         print results
         session = Session()
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')
+        self.state = 0  # -1 = active but never checked, 0 = active and checked 1 = disabled
         session.merge(self)
         session.flush()
         session.close()

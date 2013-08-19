@@ -6,5 +6,5 @@ Session = sessionmaker(bind=db_engine)
 
 # Mongo section
 from pymongo import Connection
-connection = Connection('fishbone.me', 27017)
+Mongo = Connection('fishbone.me', 27017)
 
