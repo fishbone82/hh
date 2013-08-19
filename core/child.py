@@ -31,11 +31,12 @@ def target(task_queue):
                     'data': data,
                 })
             except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-                check_results.append({
-                    'worker_id': worker.worker_id,
-                    'retcode': -1,
-                    'data': None,
-                })
+                result = {'worker_id': worker.worker_id, 'data': None}
+                if e.__class__ is requests.exceptions.ConnectionError:
+                    result['retcode'] = 3
+                else:
+                    result['retcode'] = 4
+                check_results.append(result)
 
         # We need to check results here
         # session = get_session()
