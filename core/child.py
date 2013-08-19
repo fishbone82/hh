@@ -4,6 +4,8 @@ import signal
 import os
 import sys
 import requests
+WORKER_TIMEOUT = 3
+
 
 def sigterm(signum, frame):
     """ SIGTERM Handler """
@@ -20,13 +22,20 @@ def target(task_queue):
         check_results = []
         for worker in check.get_workers():
             url = 'http://%s/check/%s' % (worker.address, check.plugin)
-            r = requests.get(url, params=check.args_dict())
-            (retcode, data) = r.json()
-            check_results.append({
-                'worker_id': worker.worker_id,
-                'retcode': retcode,
-                'data': data,
-            })
+            try:
+                r = requests.get(url, params=check.args_dict(), timeout=WORKER_TIMEOUT)
+                (retcode, data) = r.json()
+                check_results.append({
+                    'worker_id': worker.worker_id,
+                    'retcode': retcode,
+                    'data': data,
+                })
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+                check_results.append({
+                    'worker_id': worker.worker_id,
+                    'retcode': -1,
+                    'data': None,
+                })
 
         # We need to check results here
         # session = get_session()
