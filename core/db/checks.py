@@ -5,12 +5,21 @@ from sqlalchemy import Column, Integer, TIMESTAMP, Enum, String
 from workers import Worker
 from connection import Session
 from sqlalchemy import text
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
+
+
+class Host(Base):
+    __tablename__ = 'hosts'
+    host_id = Column(Integer, primary_key=True)
+    address = Column(String)
+    checks = relationship('Check', backref="host")
 
 
 class Check(Base):
     __tablename__ = 'checks'
     check_id = Column(Integer, primary_key=True)
-    host_id = Column(Integer)
+    host_id = Column(Integer, ForeignKey('hosts.host_id'))
     state = Column(Enum('-1', '0', '1', '2'))
     check_interval = Column(Integer)
     next_check = Column(TIMESTAMP)
