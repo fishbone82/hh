@@ -33,7 +33,7 @@ class Check(Base):
         args_dict['token'] = self.generate_token()
         return args_dict
 
-    def update_results(self, results):
+    def update_next_check_time(self, results):
         print results
         session = Session()
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')

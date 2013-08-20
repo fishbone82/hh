@@ -17,5 +17,7 @@ session2.commit()
 mongo = Mongo
 db = mongo.mydb
 collection = db.TestData
-data = collection.find_one()
-print data['foo']  # bar
+collection.insert({"foo": "bar", "bar": "baz"})
+data = collection.find_one({"foo": "bar"})
+print data
+collection.remove(data)

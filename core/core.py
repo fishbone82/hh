@@ -114,4 +114,4 @@ if __name__ == '__main__':
             for check in session.query(db.Checks).order_by(db.Checks.check_id):
                 task_queue.put(check)
             session.close()
-            sleep(0.1)
+            sleep(3)
