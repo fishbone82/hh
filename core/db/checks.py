@@ -1,22 +1,10 @@
-from sqlalchemy.ext.declarative import declarative_base
 import json
-Base = declarative_base()
-from sqlalchemy import Column, Integer, TIMESTAMP, Enum, String
+from sqlalchemy import text, ForeignKey, Column, Integer, TIMESTAMP, Enum, String
 from workers import Worker
-from connection import Session
-from sqlalchemy import text
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship, backref
+from __init__ import Session, ORMBase
+from hosts import Host as HostClass
 
-
-class Host(Base):
-    __tablename__ = 'hosts'
-    host_id = Column(Integer, primary_key=True)
-    address = Column(String)
-    checks = relationship('Check', backref="host")
-
-
-class Check(Base):
+class Check(ORMBase):
     __tablename__ = 'checks'
     check_id = Column(Integer, primary_key=True)
     host_id = Column(Integer, ForeignKey('hosts.host_id'))
@@ -46,7 +34,7 @@ class Check(Base):
         print results
         session = Session()
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')
-        self.state = 0  # -1 = active but never checked, 0 = active and checked 1 = disabled
+        self.state = '0'  # -1 = active but never checked, 0 = active and checked 1 = disabled
         session.merge(self)
         session.flush()
         session.close()

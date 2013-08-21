@@ -8,6 +8,7 @@ import os
 import sys
 import child
 import db
+from db.checks import Check as CheckClass
 from multiprocessing import Process, active_children, Event, Queue
 
 stdout = sys.stdout
@@ -110,8 +111,8 @@ if __name__ == '__main__':
 
         while 1:
             spawn_children(task_queue)
-            session = db.get_session()
-            for check in session.query(db.Checks).order_by(db.Checks.check_id):
+            session = db.Session()
+            for check in session.query(CheckClass).order_by(CheckClass.check_id):
                 task_queue.put(check)
             session.close()
             sleep(3)

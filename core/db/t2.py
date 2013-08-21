@@ -1,5 +1,5 @@
-from checks import Check, Host
-from connection import Session, Mongo
+from __init__ import Session, Mongo
+from checks import Check
 session = Session()
 
 from sqlalchemy import text
