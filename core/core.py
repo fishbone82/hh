@@ -10,12 +10,13 @@ import child
 import db
 from db.checks import Check as CheckClass
 from multiprocessing import Process, active_children, Event, Queue
+from sqlalchemy.orm import joinedload
 
 stdout = sys.stdout
 #stdout = open('/tmp/stdout', mode='w', buffering=0)
 
 stderr = stdout
-max_chld = 3
+max_chld = 1
 PIDFILE = '/tmp/hh_core.pid'
 SPAWN_ALLOWED = True
 
@@ -109,10 +110,17 @@ if __name__ == '__main__':
 
         print "\nMaster started: %s" % os.getpid()
 
-        while 1:
-            spawn_children(task_queue)
-            session = db.Session()
-            for check in session.query(CheckClass).order_by(CheckClass.check_id):
-                task_queue.put(check)
-            session.close()
-            sleep(3)
+        # while 1:
+        #     spawn_children(task_queue)
+        #     session = db.Session()
+        #     for check in session.query(CheckClass).options(joinedload('host')):
+        #         task_queue.put(check)
+        #     session.close()
+        #     sleep(3)
+
+        spawn_children(task_queue)
+        session = db.Session()
+        for check in session.query(CheckClass).options(joinedload('host')):
+            task_queue.put(check)
+        session.close()
+        sleep(3)

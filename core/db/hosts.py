@@ -8,4 +8,4 @@ class Host(ORMBase):
     host_id = Column(Integer, primary_key=True)
     user_id = Column(Integer)
     address = Column(String)
-    checks = relationship('Check', backref=backref("host"))
+    checks = relationship('Check', backref="host")

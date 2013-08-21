@@ -43,13 +43,12 @@ class Check(ORMBase):
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')
         self.state = '0'  # -1 = active but never checked, 0 = active and checked 1 = disabled
         session.merge(self)
-        #print "QQQ: %s" % self.host
         session.flush()
         session.close()
 
         # push results to mongo
-        #collection = self.get_mongo_collection()
-        #collection.insert({"check_id": check.check_id, "results": check_results})
+        collection = self.get_mongo_collection()
+        collection.insert({"check_id": self.check_id, "results": results})
 
 
 

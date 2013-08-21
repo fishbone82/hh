@@ -20,7 +20,10 @@ def target(task_queue):
     while True:
         check = task_queue.get()
         check_results = []
-        for worker in check.get_workers():
+        print "BEFORE GET"
+        workers = check.get_workers()
+        for worker in workers:
+            print "WORKER %s" % worker.worker_id
             url = 'http://%s/check/%s' % (worker.address, check.plugin)
             try:
                 r = requests.get(url, params=check.args_dict(), timeout=WORKER_TIMEOUT)
