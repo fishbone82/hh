@@ -6,5 +6,6 @@ from __init__ import ORMBase
 class Host(ORMBase):
     __tablename__ = 'hosts'
     host_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
     address = Column(String)
     checks = relationship('Check', backref="host")

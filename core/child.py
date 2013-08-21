@@ -5,8 +5,7 @@ import os
 import sys
 import requests
 WORKER_TIMEOUT = 3
-from db import Mongo
-mongo = Mongo.mydb
+
 
 def sigterm(signum, frame):
     """ SIGTERM Handler """
@@ -38,6 +37,4 @@ def target(task_queue):
                 else:
                     result['retcode'] = 4
                 check_results.append(result)
-        check.update_next_check_time(check_results)
-        collection = mongo.TestData
-        collection.insert({"check_id": check.check_id, "results": check_results})
+        check.update_results(check_results)

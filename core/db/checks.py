@@ -1,8 +1,10 @@
 import json
 from sqlalchemy import text, ForeignKey, Column, Integer, TIMESTAMP, Enum, String
 from workers import Worker as WorkerClass
-from __init__ import Session, ORMBase
+from __init__ import Session, Mongo, ORMBase
 from hosts import Host as HostClass
+mongo = Mongo
+
 
 class Check(ORMBase):
     __tablename__ = 'checks'
@@ -30,14 +32,26 @@ class Check(ORMBase):
         args_dict['token'] = self.generate_token()
         return args_dict
 
-    def update_next_check_time(self, results):
+    def get_mongo_collection(self):
+        collection = getattr(mongo, 'user_%s' % self.host.user_id)
+        return collection
+
+    def update_results(self, results):
         print results
+        # update next_check time in MySQL
         session = Session()
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')
         self.state = '0'  # -1 = active but never checked, 0 = active and checked 1 = disabled
         session.merge(self)
+        #print "QQQ: %s" % self.host
         session.flush()
         session.close()
+
+        # push results to mongo
+        #collection = self.get_mongo_collection()
+        #collection.insert({"check_id": check.check_id, "results": check_results})
+
+
 
     # def __init__(self, host_id, state,  plugin,  next_check=None, check_interval=600):
     #     self.host_id = host_id

@@ -16,7 +16,9 @@ Session = sessionmaker(bind=db_engine)
 
 # Mongo section
 from pymongo import Connection
-Mongo = Connection('fishbone.me', 27017)
+mongo_connection = Connection('fishbone.me', 27017)
+Mongo = mongo_connection.hh_checks
+Mongo.authenticate('hh', 'hhmongopass')
 
 
 # ORM section
