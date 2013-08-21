@@ -1,6 +1,6 @@
 import json
 from sqlalchemy import text, ForeignKey, Column, Integer, TIMESTAMP, Enum, String
-from workers import Worker
+from workers import Worker as WorkerClass
 from __init__ import Session, ORMBase
 from hosts import Host as HostClass
 
@@ -21,7 +21,7 @@ class Check(ORMBase):
     def get_workers(self):
         session = Session()
         workers_list = json.loads(self.workers)
-        workers = session.query(Worker).filter(Worker.worker_id.in_(workers_list)).all()
+        workers = session.query(WorkerClass).filter(WorkerClass.worker_id.in_(workers_list)).all()
         session.close()
         return workers
 
