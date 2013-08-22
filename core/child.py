@@ -1,8 +1,6 @@
 #HH core child
-from time import sleep
 import signal
 import os
-import sys
 import requests
 WORKER_TIMEOUT = 3
 
@@ -20,10 +18,8 @@ def target(task_queue):
     while True:
         check = task_queue.get()
         check_results = []
-        print "BEFORE GET"
         workers = check.get_workers()
         for worker in workers:
-            print "WORKER %s" % worker.worker_id
             url = 'http://%s/check/%s' % (worker.address, check.plugin)
             try:
                 r = requests.get(url, params=check.args_dict(), timeout=WORKER_TIMEOUT)

@@ -7,10 +7,9 @@ import signal
 import os
 import sys
 import child
-import db
-from db.checks import Check as CheckClass
+from db import get_rotten_checks
 from multiprocessing import Process, active_children, Event, Queue
-from sqlalchemy.orm import joinedload
+
 
 stdout = sys.stdout
 #stdout = open('/tmp/stdout', mode='w', buffering=0)
@@ -19,6 +18,8 @@ stderr = stdout
 max_chld = 1
 PIDFILE = '/tmp/hh_core.pid'
 SPAWN_ALLOWED = True
+
+#session = db.Session()
 
 
 def get_proc_name(pid):
@@ -110,17 +111,8 @@ if __name__ == '__main__':
 
         print "\nMaster started: %s" % os.getpid()
 
-        # while 1:
-        #     spawn_children(task_queue)
-        #     session = db.Session()
-        #     for check in session.query(CheckClass).options(joinedload('host')):
-        #         task_queue.put(check)
-        #     session.close()
-        #     sleep(3)
-
-        spawn_children(task_queue)
-        session = db.Session()
-        for check in session.query(CheckClass).options(joinedload('host')):
-            task_queue.put(check)
-        session.close()
-        sleep(3)
+        while 1:
+            spawn_children(task_queue)
+            for check in get_rotten_checks():
+                task_queue.put(check)
+            sleep(5)

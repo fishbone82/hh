@@ -4,6 +4,7 @@ from workers import Worker as WorkerClass
 from __init__ import Session, Mongo, ORMBase
 from hosts import Host as HostClass
 mongo = Mongo
+session = Session()
 
 
 class Check(ORMBase):
@@ -16,15 +17,14 @@ class Check(ORMBase):
     plugin = Column(String)
     args = Column(String)
     workers = Column(String)
+    last_result_id = Column(String)
 
     def generate_token(self):
         return "G654hpx5"
 
     def get_workers(self):
-        session = Session()
         workers_list = json.loads(self.workers)
         workers = session.query(WorkerClass).filter(WorkerClass.worker_id.in_(workers_list)).all()
-        session.close()
         return workers
 
     def args_dict(self):
@@ -38,17 +38,16 @@ class Check(ORMBase):
 
     def update_results(self, results):
         print results
-        # update next_check time in MySQL
-        session = Session()
-        self.next_check = text('NOW() + INTERVAL check_interval SECOND')
-        self.state = '0'  # -1 = active but never checked, 0 = active and checked 1 = disabled
-        session.merge(self)
-        session.flush()
-        session.close()
-
         # push results to mongo
         collection = self.get_mongo_collection()
-        collection.insert({"check_id": self.check_id, "results": results})
+        mongo_insert_id = collection.insert({"check_id": self.check_id, "results": results})
+
+        # update next_check time in MySQL
+        self.next_check = text('NOW() + INTERVAL check_interval SECOND')
+        self.state = '0'  # -1 = active but never checked, 0 = active and checked 1 = disabled
+        self.last_result_id = mongo_insert_id
+        session.merge(self)
+        session.flush()
 
 
 
