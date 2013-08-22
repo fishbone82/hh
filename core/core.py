@@ -1,25 +1,23 @@
-#!/usr/bin/python
+#!/usr/bin/python -u
 # HH Core daemon
 from time import sleep
 import daemon
 import lockfile
 import signal
 import os
-import sys
-import child
+from child import child_handler
 from db import get_rotten_checks
 from multiprocessing import Process, active_children, Event, Queue
 
 
-stdout = sys.stdout
-#stdout = open('/tmp/stdout', mode='w', buffering=0)
+#stdout = sys.stdout
+stdout = open('/tmp/stdout', mode='w', buffering=0)
 
 stderr = stdout
 max_chld = 1
 PIDFILE = '/tmp/hh_core.pid'
+MASTER_SLEEP_INTERVAL = 3
 SPAWN_ALLOWED = True
-
-#session = db.Session()
 
 
 def get_proc_name(pid):
@@ -38,9 +36,9 @@ def sigterm(signum, frame):
             print "[master] Terminating child %s" % chld.pid
             chld.terminate()
             chld.join()
+    stdout.flush()
     stdout.close()
     stderr.close()
-
     exit(0)
 
 
@@ -80,7 +78,7 @@ def spawn_children(queue):
     if SPAWN_ALLOWED and len(active_children()) < max_chld:
         while len(active_children()) != max_chld:
             new_child = Process(
-                target=child.target,
+                target=child_handler,
                 kwargs={
                     "task_queue": queue,
                 },
@@ -109,10 +107,9 @@ if __name__ == '__main__':
         # Create queue
         task_queue = Queue()
 
-        print "\nMaster started: %s" % os.getpid()
-
+        print "Master started with PID %s" % os.getpid()
         while 1:
             spawn_children(task_queue)
             for check in get_rotten_checks():
                 task_queue.put(check)
-            sleep(5)
+            sleep(MASTER_SLEEP_INTERVAL)

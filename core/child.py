@@ -11,7 +11,7 @@ def sigterm(signum, frame):
     os.abort()
 
 
-def target(task_queue):
+def child_handler(task_queue):
     print "[child] %s created!" % os.getpid()
     signal.signal(signal.SIGTERM, sigterm)
 

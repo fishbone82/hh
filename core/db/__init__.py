@@ -18,6 +18,6 @@ ORMBase = declarative_base()
 def get_rotten_checks():
     from checks import Check as CheckClass
     session = Session()
-    rotten_checks = session.query(CheckClass).options(joinedload('host')).all()
+    rotten_checks = session.query(CheckClass).filter("next_check<now()").options(joinedload('host')).all()
     session.close()
     return rotten_checks
