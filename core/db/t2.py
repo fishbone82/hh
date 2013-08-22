@@ -1,6 +1,9 @@
 #from __init__ import Session, Mongo
 from __init__ import get_rotten_checks
 print get_rotten_checks()
+import time
+print time.time()
+print time.strftime("%s")
 
 #session = Session()
 

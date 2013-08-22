@@ -1,6 +1,7 @@
 import json
 from sqlalchemy import text, ForeignKey, Column, Integer, TIMESTAMP, Enum, String
 from workers import Worker as WorkerClass
+import time
 from __init__ import Session, Mongo, ORMBase
 from hosts import Host as HostClass
 mongo = Mongo
@@ -38,9 +39,10 @@ class Check(ORMBase):
 
     def update_results(self, results):
         print results
+
         # push results to mongo
         collection = self.get_mongo_collection()
-        mongo_insert_id = collection.insert({"check_id": self.check_id, "results": results})
+        mongo_insert_id = collection.insert({"check_id": self.check_id, "check_time": time.strftime("%s"), "results": results})
 
         # update next_check time in MySQL
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')
