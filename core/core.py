@@ -10,11 +10,10 @@ from db import get_rotten_checks
 from multiprocessing import Process, active_children, Event, Queue
 
 
-#stdout = sys.stdout
-stdout = open('/tmp/stdout', mode='w', buffering=0)
-
-stderr = stdout
-max_chld = 1
+#STDOUT = sys.stdout
+STDOUT = open('/tmp/stdout', mode='w', buffering=0)
+STDERR = STDOUT
+MAX_CHLD = 1
 PIDFILE = '/tmp/hh_core.pid'
 MASTER_SLEEP_INTERVAL = 3
 SPAWN_ALLOWED = True
@@ -36,9 +35,9 @@ def sigterm(signum, frame):
             print "[master] Terminating child %s" % chld.pid
             chld.terminate()
             chld.join()
-    stdout.flush()
-    stdout.close()
-    stderr.close()
+    STDOUT.flush()
+    STDOUT.close()
+    STDERR.close()
     exit(0)
 
 
@@ -90,8 +89,8 @@ if __name__ == '__main__':
         working_directory='/',
         umask=0o002,
         pidfile=lock_pidfile(PIDFILE),
-        stdout=stdout,
-        stderr=stdout,
+        stdout=STDOUT,
+        stderr=STDERR,
         signal_map={
             signal.SIGTERM: sigterm,
             signal.SIGCHLD: sigchld,

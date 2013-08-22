@@ -26,14 +26,14 @@ def child_handler(task_queue):
                 (retcode, data) = r.json()
                 check_results.append({
                     'worker_id': worker.worker_id,
-                    'retcode': retcode,
+                    'retcode': retcode,  # 0 - OK, 1 - WARNING, 2 - CRITICAL
                     'data': data,
                 })
             except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
                 result = {'worker_id': worker.worker_id, 'data': None}
                 if e.__class__ is requests.exceptions.ConnectionError:
-                    result['retcode'] = 3
+                    result['retcode'] = 3  # Connection Error
                 else:
-                    result['retcode'] = 4
+                    result['retcode'] = 4  # Connection Timeout
                 check_results.append(result)
         check.update_results(check_results)
