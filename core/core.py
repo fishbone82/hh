@@ -74,8 +74,8 @@ def lock_pidfile(filename):
 def spawn_children(queue):
     # spawn children if allowed and needed
     global SPAWN_ALLOWED
-    if SPAWN_ALLOWED and len(active_children()) < max_chld:
-        while len(active_children()) != max_chld:
+    if SPAWN_ALLOWED and len(active_children()) < MAX_CHLD:
+        while len(active_children()) != MAX_CHLD:
             new_child = Process(
                 target=child_handler,
                 kwargs={
