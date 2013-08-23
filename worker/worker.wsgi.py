@@ -39,7 +39,7 @@ def process(plugin_name, args):
     try:
         plugin_class = getattr(plugins, plugin_name)
     except (AttributeError, TypeError) as e:
-        return '404 Not Found', 'Invalid plugin name'
+        return '404 Not Found', 'Invalid plugin name: %s' % plugin_name
 
     if plugin_class is not None:
         # Get plugin object
