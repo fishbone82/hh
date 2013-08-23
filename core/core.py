@@ -5,6 +5,7 @@ import daemon
 import lockfile
 import signal
 import os
+import logger
 from child import child_handler
 from db import get_rotten_checks
 from multiprocessing import Process, active_children, Event, Queue
@@ -71,6 +72,10 @@ def lock_pidfile(filename):
     return pidfile
 
 
+def log(message):
+    logger.log(message, 'master')
+
+
 def spawn_children(queue):
     # spawn children if allowed and needed
     global SPAWN_ALLOWED
@@ -107,6 +112,7 @@ if __name__ == '__main__':
         task_queue = Queue()
 
         print "Master started with PID %s" % os.getpid()
+        log('daemon started')
         while 1:
             spawn_children(task_queue)
             for check in get_rotten_checks():

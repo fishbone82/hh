@@ -2,11 +2,12 @@
 import signal
 import os
 import requests
+import logger
 WORKER_TIMEOUT = 3
 
 
 def log(message):
-    print "[child %s] %s" % (os.getpid(), message)
+    logger.log(message, 'child')
 
 
 def sigterm(signum, frame):
