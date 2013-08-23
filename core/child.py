@@ -21,7 +21,7 @@ def child_handler(task_queue):
 
     while True:
         check = task_queue.get()
-        log("got check %s") % check.check_id
+        log("got check %s" % check.check_id)
         check_results = []
         workers = check.get_workers()
         for worker in workers:
@@ -41,5 +41,5 @@ def child_handler(task_queue):
                 else:
                     result['retcode'] = 4  # Connection Timeout
                 check_results.append(result)
-        log("done check %s: %s") % (check.check_id, check_results)
+        log("done check %s: %s" % (check.check_id, check_results))
         check.update_results(check_results)
