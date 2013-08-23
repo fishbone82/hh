@@ -38,8 +38,6 @@ class Check(ORMBase):
         return collection
 
     def update_results(self, results):
-        print results
-
         # push results to mongo
         collection = self.get_mongo_collection()
         mongo_insert_id = collection.insert({"check_id": self.check_id, "check_time": time.strftime("%s"), "results": results})
