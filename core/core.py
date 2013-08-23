@@ -15,7 +15,7 @@ STDOUT = open('/tmp/stdout', mode='w', buffering=0)
 STDERR = STDOUT
 MAX_CHLD = 1
 PIDFILE = '/tmp/hh_core.pid'
-MASTER_SLEEP_INTERVAL = 3
+MASTER_SLEEP_INTERVAL = 1
 SPAWN_ALLOWED = True
 
 
