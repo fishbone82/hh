@@ -8,11 +8,11 @@ import os
 import logger
 from child import child_handler
 from db import get_rotten_checks
-from multiprocessing import Process, active_children, Event, Queue
+from multiprocessing import Process, active_children, Queue
 
 
 #STDOUT = sys.stdout
-STDOUT = open('/tmp/stdout', mode='w', buffering=0)
+STDOUT = open('/tmp/stdout', mode='a', buffering=0)
 STDERR = STDOUT
 MAX_CHLD = 1
 PIDFILE = '/tmp/hh_core.pid'
@@ -78,7 +78,6 @@ def log(message):
 
 def spawn_children(queue):
     # spawn children if allowed and needed
-    global SPAWN_ALLOWED
     if SPAWN_ALLOWED and len(active_children()) < MAX_CHLD:
         while len(active_children()) != MAX_CHLD:
             new_child = Process(
@@ -115,6 +114,7 @@ if __name__ == '__main__':
         log('daemon started')
         while 1:
             spawn_children(task_queue)
-            for check in get_rotten_checks():
+            rotten_checks = get_rotten_checks()
+            for check in rotten_checks:
                 task_queue.put(check)
             sleep(MASTER_SLEEP_INTERVAL)
