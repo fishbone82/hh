@@ -1,0 +1,6 @@
+<macro metal:use-macro="load: layout.pt">
+    <div metal:fill-slot="content">
+        <p>Welcome to HostHealth</p>
+    </div>
+</macro>
+

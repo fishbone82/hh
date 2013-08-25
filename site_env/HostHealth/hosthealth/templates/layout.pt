@@ -1,0 +1,23 @@
+<html>
+    <head metal:define-macro="head">
+        <title>${page_title}</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    </head>
+    <body>
+
+    <div class="global-wrapper">
+        <div class="page-header">
+            <macro metal:use-macro='load: blocks/header.pt'>
+        </div>
+
+        <macro metal:define-slot="content"></macro>
+
+        <div class="global-buffer"></div>
+    </div>
+
+    <div class="global-footer">
+        <macro metal:use-macro='load: blocks/footer.pt'>
+    </div>
+
+    </body>
+</html>
