@@ -1,12 +1,12 @@
 # Mysql section
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, joinedload
-mysql_engine = create_engine('mysql://orthus:ordbpass@fishbone.me/orthus', echo=False)
+mysql_engine = create_engine('mysql://orthus:ordbpass@fishbone.homelinux.org/orthus', echo=False)
 Session = sessionmaker(bind=mysql_engine)
 
 # Mongo section
 from pymongo import Connection
-mongo_connection = Connection('fishbone.me', 27017)
+mongo_connection = Connection('fishbone.homelinux.org', 27017)
 Mongo = mongo_connection.orthus_checks
 Mongo.authenticate('orthus', 'ormongopass')
 
