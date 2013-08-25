@@ -1,4 +1,4 @@
-# tcp plugin for HH
+# Orthus tcp plugin
 import socket
 from time import time
 from base import plugin_base
@@ -7,7 +7,7 @@ from args import address, port, timeout, critical_time, warning_time
 
 class plugin(plugin_base):
     use_args = (address, port, timeout, critical_time, warning_time)
-    description = "Simple TCP plugin for HH"
+    description = "Simple TCP plugin for Orthus"
 
     def process(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

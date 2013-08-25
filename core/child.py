@@ -1,4 +1,4 @@
-#HH core child
+#Orthus core child
 import signal
 import os
 import requests

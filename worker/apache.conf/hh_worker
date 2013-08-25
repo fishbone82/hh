@@ -1,20 +1,20 @@
-WSGIPythonPath /opt/HH/worker
+WSGIPythonPath /opt/orthus/worker
 <VirtualHost *:8080>
     ServerName fishbone.me
 	ServerAdmin me@fishbone.me
-	DocumentRoot /opt/HH/worker
-	ErrorLog ${APACHE_LOG_DIR}/hh_worker_error.log
+	DocumentRoot /opt/orthus/worker
+	ErrorLog ${APACHE_LOG_DIR}/orthus_worker_error.log
 
 	LogLevel warn
 
-	CustomLog ${APACHE_LOG_DIR}/hh_worker_access.log combined
+	CustomLog ${APACHE_LOG_DIR}/orthus_worker_access.log combined
 
 #    WSGIApplicationGroup %{GLOBAL}
 
 
-    WSGIScriptAliasMatch . /opt/HH/worker/worker.wsgi.py
+    WSGIScriptAliasMatch . /opt/orthus/worker/worker.wsgi.py
 
-    <Directory /opt/HH/worker>
+    <Directory /opt/orthus/worker>
         Order allow,deny
         Allow from all
     </Directory>

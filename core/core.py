@@ -1,5 +1,5 @@
 #!/usr/bin/python -u
-# HH Core daemon
+# Orthus Core daemon
 from time import sleep
 import daemon
 import lockfile
@@ -15,7 +15,7 @@ from multiprocessing import Process, active_children, Queue
 STDOUT = open('/tmp/stdout', mode='a', buffering=0)
 STDERR = STDOUT
 MAX_CHLD = 1
-PIDFILE = '/tmp/hh_core.pid'
+PIDFILE = '/tmp/orhus_core.pid'
 MASTER_SLEEP_INTERVAL = 1
 SPAWN_ALLOWED = True
 

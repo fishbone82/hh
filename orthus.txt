@@ -28,7 +28,7 @@ clean_value = args.class('dirty_value').validate() - если косяк - до�
         - запускает луп
 
 
-DB mysql -uhh -phhdbpass
+DB mysql -uorthus -pordbpass
 hosts:
     host_id
     user_id

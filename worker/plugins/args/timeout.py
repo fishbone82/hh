@@ -1,4 +1,4 @@
-# timeout argument for HH plugins
+# timeout argument for Orthus plugins
 from base import plugin_arg
 
 

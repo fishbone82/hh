@@ -1,6 +1,6 @@
 class plugin_base():
-    """ Base class for HH plugins"""
-    description = 'HH plugin'
+    """ Base class for Orthus plugins"""
+    description = 'Orthus plugin'
     use_args = {}  # args classes to use
     args = {}
     status = -1

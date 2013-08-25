@@ -1,4 +1,4 @@
-# Base class for HH plugins arguments
+# Base class for Orthus plugins arguments
 
 
 class plugin_arg():

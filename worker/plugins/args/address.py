@@ -1,4 +1,4 @@
-# address argument for HH plugins
+# address argument for Orthus plugins
 from base import plugin_arg
 
 

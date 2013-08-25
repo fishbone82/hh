@@ -1,4 +1,4 @@
-# port argument for HH plugins
+# port argument for Orthus plugins
 from base import plugin_arg
 
 

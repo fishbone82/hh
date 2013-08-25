@@ -1,4 +1,4 @@
-# critical_time argument for HH plugins
+# critical_time argument for Orthus plugins
 from base import plugin_arg
 
 
