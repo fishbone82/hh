@@ -1,6 +1,7 @@
+/* Global layout */
 html, body {
     height: 100%;
-    margin: 0;
+    margin:  0;
     padding: 0;
 }
 
@@ -15,4 +16,15 @@ html, body {
 
 .global-buffer {
     height: 50px;
+}
+
+/* Header */
+#page-header {
+    /*padding: 0px;*/
+}
+
+#logo {
+    text-decoration: none;
+    color: #000000;
+    display: block;
 }
