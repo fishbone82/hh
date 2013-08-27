@@ -20,11 +20,16 @@ html, body {
 
 /* Header */
 #page-header {
-    /*padding: 0px;*/
+    padding: 1px;
+    background-color: silver;
 }
 
 #logo {
     text-decoration: none;
     color: #000000;
     display: block;
+
+}
+#login-link {
+
 }

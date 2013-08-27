@@ -1,1 +1,1 @@
-footer
+&copy footer

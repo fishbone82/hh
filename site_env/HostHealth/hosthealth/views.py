@@ -6,6 +6,7 @@ def welcome(request):
     return {'project': 'HostHealth', 'page_title': 'HostHealth::Welcome'}
 
 
-@view_config(route_name='login', renderer='templates/login.pt')
+@view_config(route_name='login', renderer='login.mako')
 def login(request):
+    
     return {'project': 'HostHealth', 'page_title': 'HostHealth::Login'}
