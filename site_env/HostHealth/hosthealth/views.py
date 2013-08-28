@@ -11,5 +11,5 @@ def login(request):
     query = urlparse.parse_qs(request.query_string)
     for (k, v) in query.items():
         query[k] = v[0]
-    
+
     return {'project': 'HostHealth', 'page_title': 'HostHealth::Login'}
