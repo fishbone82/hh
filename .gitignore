@@ -20,6 +20,7 @@ lib64
 bin
 include
 lib/*
+lib
 local
 
 # Installer logs
