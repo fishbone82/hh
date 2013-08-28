@@ -18,7 +18,11 @@ lib64
 
 #Pyramid
 bin
+bin/*
 include
+include/*
+local
+local/*
 lib/*
 lib
 local
