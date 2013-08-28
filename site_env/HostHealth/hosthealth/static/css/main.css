@@ -47,8 +47,9 @@ html, body {
 #hh-logo {
     display: block;
     text-decoration: none;
-    color: white;
+    display: inline-block;
 }
+
 .hh-page-header a {
     color: white;
     text-decoration: underline;

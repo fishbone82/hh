@@ -1,9 +1,11 @@
+<%! page_title = 'HostHealth::Login' %>
+
 <%inherit file="layout.mako"/>
 
 <%block name="page_content">
     <div style="height:100px"></div>
     <div class="dialog" style="width: 220px;">
-        <form class="form-horizontal" style="margin-bottom:0">
+        <form class="form-horizontal" style="margin-bottom:0" method="POST">
             <div class="control-group">
                 <input type="text" id="email" name="email" placeholder="Email">
             </div>
@@ -13,8 +15,8 @@
             <button type="submit" class="btn">Sign in</button>
         </form>
     </div>
-    qqq<br>
-    ${session}
+    Error: ${error}
+    Session: ${session}
 </%block>
 
 <%block name="js">

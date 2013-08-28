@@ -12,8 +12,8 @@ def main(global_config, **settings):
     config.include("pyramid_beaker")
     session_factory = BeakerSessionFactoryConfig(
         type='file',
-        key='qwerty',
-        secret='g43ger',
+        #key='qwerty',
+        #secret='g43ger',
         data_dir='/tmp/hh/sessions/data',
         data_lock_dir='/tmp/hh/sessions/lock'
     )
@@ -25,3 +25,10 @@ def main(global_config, **settings):
 
     config.scan()
     return config.make_wsgi_app()
+
+
+def authenticate(email, password):
+    if email == '1' and password == '1':
+        return 1
+    else:
+        return 0
