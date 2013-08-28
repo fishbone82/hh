@@ -13,7 +13,7 @@ html, body {
 
 .global-wrapper {
     min-height: 100%;
-    margin-bottom: -50px;
+    margin-bottom: -20px;
 }
 
 * html .global-wrapper {
@@ -21,27 +21,33 @@ html, body {
 }
 
 .global-buffer {
-    height: 50px;
+    height: 20px;
+}
+
+/* Footer */
+#global-footer {
+    background-color: #448aff;
+    height: 20px;
+    color: white;
 }
 
 /* Header */
 #page-header {
     padding: 1px;
-    background-color: #88b5ff;
+    background-color: #448aff;
 }
 
 #logo {
     text-decoration: none;
-    color: #000000;
     display: block;
-
+    color: white;
 }
 #login-link {
-
+    color: white;
 }
 #loginbox {
-    border-radius: 3px;
-    border: solid lightseagreen 1px;
+    border-radius: 4px;
+    border: solid #448aff 2px;
     width: 250px;
     margin: auto;
     padding: 5px;
