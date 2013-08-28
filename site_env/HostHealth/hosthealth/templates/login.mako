@@ -13,7 +13,8 @@
             <button type="submit" class="btn">Sign in</button>
         </form>
     </div>
-
+    qqq<br>
+    ${session}
 </%block>
 
 <%block name="js">

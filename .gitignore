@@ -19,7 +19,7 @@ lib64
 #Pyramid
 bin
 include
-lib
+lib/*
 local
 
 # Installer logs
