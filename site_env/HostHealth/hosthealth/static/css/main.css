@@ -13,7 +13,7 @@ html, body {
 
 .global-wrapper {
     min-height: 100%;
-    margin-bottom: -20px;
+    margin-bottom: -22px;
 }
 
 * html .global-wrapper {
@@ -21,19 +21,19 @@ html, body {
 }
 
 .global-buffer {
-    height: 20px;
+    height: 22px;
 }
 
 /* Footer */
 #global-footer {
     background-color: #448aff;
-    height: 20px;
     color: white;
+    height: 22px;
 }
 
 /* Header */
 #page-header {
-    padding: 1px;
+    padding: 6px;
     background-color: #448aff;
 }
 
