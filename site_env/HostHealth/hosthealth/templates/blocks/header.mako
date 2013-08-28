@@ -3,4 +3,4 @@
 </a>
 <span style="float: right; margin-top: -20px; margin-right: 15px;">
 <a href='/login'>Login</a> or <a href='/register'>Create Account</a>
-<span>
+</span>
