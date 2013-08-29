@@ -17,15 +17,15 @@ develop-eggs
 lib64
 
 #Pyramid
-bin
-bin/*
-include
-include/*
-local
-local/*
-lib/*
-lib
-local
+#bin
+#bin/*
+#include
+#include/*
+#local
+#local/*
+#lib/*
+#lib
+#local
 
 # Installer logs
 pip-log.txt

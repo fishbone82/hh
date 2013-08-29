@@ -9,6 +9,7 @@ def login(request):
     if 'email' in request.POST and 'password' in request.POST:
         if app.authenticate(request.POST['email'], request.POST['password']):
             #url = request.route_url('home')
+            request.session.save()
             return HTTPFound(location='/')
         else:
             return {"error": "Invalid email or password", "session": request.session}
