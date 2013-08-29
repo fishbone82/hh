@@ -1,1 +1,1 @@
-&copy footer
+&copy 2013 HostHealth

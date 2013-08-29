@@ -1,23 +1,26 @@
+<%! page_title = 'HostHealth::Login' %>
+
 <%inherit file="layout.mako"/>
 
 <%block name="page_content">
-    <div style="height:30%"></div>
-    <form method="GET">
-    <div id="loginbox">
-        <table>
-            <tr>
-                <td><label for="login">Login</label></td>
-                <td><input id="login" name="login" type="text"  style="width: 160px"></td>
-            </tr>
-            <tr>
-                <td><label for="password">Password</label></td>
-                <td><input name="password" id="password" type="password" style="width: 160px"></td>
-            </tr>
-            <tr>
-                <td>&nbsp</td>
-                <td><input style="float:right" type="submit"></td>
-        </table>
+    <div style="height:100px"></div>
+    <div class="dialog" style="width: 220px;">
+        <form class="form-horizontal" style="margin-bottom:0" method="POST">
+            <div class="control-group">
+                <input type="text" id="email" name="email" placeholder="Email">
+            </div>
+            <div class="control-group">
+                <input type="password" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn">Sign in</button>
+        </form>
     </div>
-    </form>
+    Error: ${error}
+    Session: ${session}
+</%block>
 
+<%block name="js">
+    $(document).ready(function(){
+        $("#email").focus();
+    });
 </%block>
