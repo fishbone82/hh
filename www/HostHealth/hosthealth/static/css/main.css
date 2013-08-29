@@ -29,7 +29,7 @@ html, body {
 
 /* Footer */
 #global-footer {
-    background-color: #0067ac;
+    background-color: #407bac;
     color: white;
     padding-left: 5px;
     padding-top: 2px;
@@ -38,14 +38,13 @@ html, body {
 /* Header */
 .hh-page-header {
     padding-left: 5px;
-    background-color: #0067ac;
+    background-color: #407bac;
     color: white;
     display: block;
     border-bottom-left-radius: 15px;
 }
 
 #hh-logo {
-    display: block;
     text-decoration: none;
     display: inline-block;
 }
