@@ -4370,7 +4370,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inner {
-  min-height: 40px;
+  min-height: 20px;
   padding-right: 20px;
   padding-left: 20px;
   background-color: #fafafa;
@@ -4443,7 +4443,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar .divider-vertical {
-  height: 40px;
+  height: 20px;
   margin: 0 9px;
   border-right: 1px solid #ffffff;
   border-left: 1px solid #f2f2f2;
@@ -4612,7 +4612,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar .nav > li > a {
   float: none;
-  padding: 10px 15px 10px;
+  padding: 5px 15px 5px;
   color: #777777;
   text-decoration: none;
   text-shadow: 0 1px 0 #ffffff;

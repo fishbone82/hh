@@ -11,6 +11,11 @@
             <div class="hh-page-header">
                 <%include file="blocks/header.mako"/>
             </div>
+            %if 'user_id' in session:
+            <div class="main-menu">
+                <%include file="blocks/main_menu.mako"/>
+            </div>
+            %endif
 
             <div id="page-content">
                 <%block name="page_content"/>
