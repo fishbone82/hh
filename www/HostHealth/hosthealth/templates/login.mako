@@ -12,7 +12,7 @@
             <div class="control-group">
                 <input type="password" id="password" name="password" placeholder="Password">
             </div>
-            <button type="submit" class="btn">Sign in</button>
+            <button type="submit" class="btn" name="form_submitted">Sign in</button>
             %if error:
                 <span class="label label-important" style="margin-top:10px;">${error}</span>
             %endif

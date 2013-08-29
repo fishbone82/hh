@@ -1,6 +1,8 @@
 from pyramid.view import view_config
+from base import ViewBase
 
 
 @view_config(route_name='welcome', renderer='welcome.mako')
-def welcome(request):
-    return {'project': 'HostHealth', 'page_title': 'HostHealth::Welcome'}
+class welcome(ViewBase):
+    def call(self):
+        return {"ok": 1}

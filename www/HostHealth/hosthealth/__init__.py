@@ -22,13 +22,7 @@ def main(global_config, **settings):
     # Routes here
     config.add_route('welcome', '/')
     config.add_route('login', '/login')
+    config.add_route('logout', '/logout')
 
     config.scan()
     return config.make_wsgi_app()
-
-
-def authenticate(email, password):
-    if email == '1' and password == '1':
-        return 1
-    else:
-        return 0
