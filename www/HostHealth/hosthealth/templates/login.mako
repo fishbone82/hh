@@ -13,10 +13,11 @@
                 <input type="password" id="password" name="password" placeholder="Password">
             </div>
             <button type="submit" class="btn">Sign in</button>
+            %if error:
+                <span class="label label-important" style="margin-top:10px;">${error}</span>
+            %endif
         </form>
     </div>
-    Error: ${error}
-    Session: ${session}
 </%block>
 
 <%block name="js">
