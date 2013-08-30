@@ -24,6 +24,7 @@ def main(global_config, **settings):
     config.set_session_factory(session_factory)
 
     # Routes here
+    config.add_route('dashboard', '/dashboard')
     config.add_route('welcome', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
