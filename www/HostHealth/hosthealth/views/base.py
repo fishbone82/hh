@@ -1,4 +1,7 @@
+from pyramid.httpexceptions import HTTPFound
 class ViewBase(object):
+    need_auth = 1
+
     def __init__(self, request):
         self.request = request
 
@@ -6,6 +9,8 @@ class ViewBase(object):
         pass
 
     def __call__(self):
+        if self.need_auth and 'user_id' not in self.request.session:
+            return HTTPFound(location='/login')
         view_result = self.call()
         if type(view_result) is dict:
             view_result['session'] = self.request.session

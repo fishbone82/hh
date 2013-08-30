@@ -4,6 +4,8 @@ from base import ViewBase
 
 @view_config(route_name='login', renderer='login.jinja2')
 class login(ViewBase):
+    need_auth = 0
+
     def call(self):
         req = self.request
         # trying to auth if email and password has been sent
