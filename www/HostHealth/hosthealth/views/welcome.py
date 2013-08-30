@@ -8,6 +8,6 @@ class welcome(ViewBase):
     need_auth = 0
 
     def call(self):
-        if 'user_id' in self.request.session:
+        if 'user' in self.request.session:
             return HTTPFound(location='/dashboard')
         return {"ok": 1}
