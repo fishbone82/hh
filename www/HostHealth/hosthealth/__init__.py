@@ -27,6 +27,7 @@ def main(global_config, **settings):
     config.add_route('welcome', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
+    config.add_route('hosts', '/hosts')
 
     config.scan()
     return config.make_wsgi_app()
