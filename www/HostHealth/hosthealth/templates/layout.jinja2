@@ -1,7 +1,6 @@
-<%! page_title = None %>
 <html>
     <head>
-        <title>${self.attr.page_title}</title>
+        <title>{{ page_title }}</title>
         <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="/static/css/main.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -9,29 +8,30 @@
     <body>
         <div class="global-wrapper">
             <div class="hh-page-header">
-                <%include file="blocks/header.mako"/>
+                {% include "blocks/header.jinja2" %}
             </div>
-            %if 'user_id' in session:
+
+            {% if session.user_id %}
             <div class="main-menu">
-                <%include file="blocks/main_menu.mako"/>
+                {% include "blocks/main-menu.jinja2" %}
             </div>
-            %endif
+            {% endif %}
 
             <div id="page-content">
-                <%block name="page_content"/>
+                {% block content %}{% endblock %}
             </div>
 
             <div class="global-buffer"></div>
         </div>
 
         <div id="global-footer">
-            <%include file="blocks/footer.mako"/>
+            {% include "blocks/footer.jinja2" %}
         </div>
     </body>
+
     <!-- scripts here -->
     <script language="javascript">
-        <%block name="js"/>
+        {% block js %}{% endblock %}
     </script>
 
 </html>
-

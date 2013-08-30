@@ -8,6 +8,10 @@ def main(global_config, **settings):
     config = Configurator(settings=settings)
     config.add_static_view('static', 'static', cache_max_age=3600)
 
+    # Jinja
+    config.include('pyramid_jinja2')
+    config.add_jinja2_search_path("hosthealth:templates")
+
     # Sessions here
     config.include("pyramid_beaker")
     session_factory = BeakerSessionFactoryConfig(

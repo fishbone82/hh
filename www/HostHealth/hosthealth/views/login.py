@@ -2,7 +2,7 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from base import ViewBase
 
-@view_config(route_name='login', renderer='login.mako')
+@view_config(route_name='login', renderer='login.jinja2')
 class login(ViewBase):
     def call(self):
         req = self.request
