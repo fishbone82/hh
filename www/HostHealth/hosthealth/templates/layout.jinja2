@@ -1,0 +1,37 @@
+{% set f = active_menu_item %}
+<html>
+    <head>
+        <title>{{ page_title }}</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="global-wrapper">
+            <div class="hh-page-header">
+                {% include "blocks/header.jinja2" %}
+            </div>
+
+            {% if session.user %}
+            <div class="main-menu">
+                {% include "blocks/main-menu.jinja2" %}
+            </div>
+            {% endif %}
+
+            <div id="page-content">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="global-buffer"></div>
+        </div>
+
+        <div id="global-footer">
+            {% include "blocks/footer.jinja2" %}
+        </div>
+    qq {{ session }}
+    </body>
+    <!-- scripts here -->
+    <script language="javascript">
+        {% block js %}{% endblock %}
+    </script>
+
+</html>
