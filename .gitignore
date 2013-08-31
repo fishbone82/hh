@@ -16,16 +16,16 @@ develop-eggs
 .installed.cfg
 lib64
 
-#Pyramid
-#bin
-#bin/*
-#include
-#include/*
-#local
-#local/*
-#lib/*
-#lib
-#local
+# Virtualenv
+bin
+bin/*
+include
+include/*
+local
+local/*
+lib/*
+lib
+
 
 # Installer logs
 pip-log.txt

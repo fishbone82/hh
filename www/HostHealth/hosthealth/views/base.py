@@ -17,12 +17,3 @@ class ViewBase(object):
         if type(view_result) is dict:
             view_result['session'] = self.request.session
         return view_result
-
-    def authenticate(self, email, password):
-        if email == 'me@fishbone.me' and password == 'vbcnth,fkf,jkrf':
-            user = {'user_id': 1, 'email': 'me@fishbone.me', 'name': 'fishbone'}
-            self.request.session.update({'user': user})
-            self.request.session.save()
-            return 1
-        else:
-            return 0

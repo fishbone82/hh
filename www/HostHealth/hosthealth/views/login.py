@@ -1,6 +1,7 @@
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from base import ViewBase
+from hosthealth import authenticate
 
 @view_config(route_name='login', renderer='login.jinja2')
 class login(ViewBase):
@@ -10,7 +11,7 @@ class login(ViewBase):
         req = self.request
         # trying to auth if email and password has been sent
         if 'form_submitted' in req.POST:
-            if self.authenticate(req.POST['email'], req.POST['password']):
+            if authenticate(req.POST['email'], req.POST['password']):
                 return HTTPFound(location='/')
             else:
                 return {"error": "Invalid email or password"}
