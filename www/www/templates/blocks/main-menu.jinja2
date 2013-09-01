@@ -1,16 +1,16 @@
-<div class="navbar">
-    <div class="navbar-inner">
-        <ul class="nav">
-            <li id="menu_dashboard"><a href="/dashboard">Dashboard</a></li>
-            <li id="menu_hosts"><a href="/hosts">Hosts</a></li>
-            <li id="menu_contacts"><a href="/contacts">Contacts</a></li>
-            <li id="menu_settings"><a href="/settings">Settings</a></li>
+<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0">
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+            <li id="menu_dashboard"><a style="padding: 15px" href="/dashboard">Dashboard</a></li>
+            <li id="menu_hosts"><a style="padding: 15px" href="/hosts">Hosts</a></li>
+            <li id="menu_contacts"><a style="padding: 15px" href="/contacts">Contacts</a></li>
+            <li id="menu_settings"><a style="padding: 15px" href="/settings">Settings</a></li>
         </ul>
     </div>
-</div>
+</nav>
 
 <script language="javascript">
     $(document).ready(function(){
-        $("#menu_{{ active_menu_item }}").addClass("active");
+        $("#menu_{{ active_menu_item }}").addClass("active").addClass("");
     });
 </script>
