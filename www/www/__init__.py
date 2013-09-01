@@ -9,7 +9,8 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     config = Configurator(settings=settings)
-    config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_static_view(name='static', path='static', cache_max_age=3600)
+    config.add_static_view(name='/favicon.ico', path='static', cache_max_age=3600)
 
     # Jinja templates here
     config.include('pyramid_jinja2')
