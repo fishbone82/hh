@@ -4,7 +4,6 @@ from sqlalchemy.orm import joinedload
 from workers import Worker as WorkerClass
 import time
 from orthus.db import Session, Mongo, ORMBase
-from orthus.db.hosts import Host as HostClass
 mongo = Mongo
 
 
@@ -60,11 +59,3 @@ class Check(ORMBase):
     #     self.state = state
     #     self.check_interval = check_interval
     #     self.next_check = next_check
-
-
-
-def get_rotten_checks():
-    s = Session()
-    rotten_checks = s.query(Check).filter("next_check<now()").options(joinedload('host')).all()
-    s.close()
-    return rotten_checks

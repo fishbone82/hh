@@ -10,7 +10,7 @@ sys.path.append('%s/../../' % os.path.dirname(__file__))
 import logger
 from child import child_handler
 from multiprocessing import Process, active_children, Queue
-from orthus.db.checks import get_rotten_checks
+from orthus.db.helpers import get_rotten_checks
 
 STDOUT = sys.stdout
 #STDOUT = open('/tmp/stdout', mode='a', buffering=0)
