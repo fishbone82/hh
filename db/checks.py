@@ -4,7 +4,7 @@ from sqlalchemy.orm import joinedload
 from workers import Worker as WorkerClass
 import time
 from orthus.db import Session, Mongo, ORMBase
-from hosts import Host as HostClass
+from orthus.db.hosts import Host as HostClass
 mongo = Mongo
 
 
@@ -41,13 +41,13 @@ class Check(ORMBase):
 
     def update_results(self, results):
         # push results to mongo
-        #collection = self.get_mongo_collection()
-        #mongo_insert_id = collection.insert({"check_id": self.check_id, "check_time": time.strftime("%s"), "results": results})
+        collection = self.get_mongo_collection()
+        mongo_insert_id = collection.insert({"check_id": self.check_id, "check_time": time.strftime("%s"), "results": results})
 
         # update next_check time in MySQL
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')
         self.state = '0'  # -1 = active but never checked, 0 = active and checked 1 = disabled
-        #self.last_result_id = mongo_insert_id
+        self.last_result_id = mongo_insert_id
         session = Session()
         session.merge(self)
         session.commit()
