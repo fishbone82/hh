@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+import os
 from pyramid.config import Configurator
 from pyramid_beaker import BeakerSessionFactoryConfig
 import sys
-import os
+reload(sys)
+sys.setdefaultencoding('utf-8')
 sys.path.append('%s/../../../' % os.path.dirname(__file__))
 
 

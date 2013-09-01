@@ -32,6 +32,10 @@ html, body {
     margin-bottom: 10px;
 }
 
+.nobg {
+    background: #ffffff;
+}
+
 
 /* ================== Footer ==================== */
 #global-footer {

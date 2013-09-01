@@ -8,4 +8,5 @@ class Host(ORMBase):
     host_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     address = Column(String)
+    description = Column(String)
     checks = relationship('Check', backref="host")
