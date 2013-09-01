@@ -9,5 +9,5 @@ from orthus.db.checks import Check
 class hosts(ViewBase):
     def call(self):
         session = Session()
-        hosts = session.query(Host).filter(Host.user_id == self.request.session['user'].user_id).all()
-        return { "hosts": hosts }
+        user = session.merge(self.request.session['user'])
+        return { "hosts": user.hosts }

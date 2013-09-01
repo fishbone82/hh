@@ -3,5 +3,7 @@
 {% set page_title = "HostHealth::Hosts" %}
 {% block content %}
     Your hosts
-    {{ hosts }}
+    {% for host in hosts %}
+        {{ host.address }}
+    {% endfor %}
 {% endblock %}

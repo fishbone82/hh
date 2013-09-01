@@ -9,4 +9,4 @@ class User(ORMBase):
     email = Column(String)
     password = Column(String)
     name = Column(String)
-    #checks = relationship('Check', backref="host")
+    hosts = relationship('Host', backref="user")
