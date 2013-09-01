@@ -1,4 +1,7 @@
 from pyramid.httpexceptions import HTTPFound
+from orthus.db import Session
+from orthus.db.user import User as UserClass
+import hashlib
 
 
 class ViewBase(object):
@@ -19,8 +22,10 @@ class ViewBase(object):
         return view_result
 
     def authenticate(self, email, password):
-        if email == 'me@fishbone.me' and password == 'vbcnth,fkf,jkrf':
-            user = {'user_id': 1, 'email': 'me@fishbone.me', 'name': 'fishbone'}
+        session = Session()
+        sha1hash = hashlib.sha1(password).hexdigest()
+        user = session.query(UserClass).filter(UserClass.email == email, UserClass.password == sha1hash).first()
+        if user:
             self.request.session.update({'user': user})
             self.request.session.save()
             return 1

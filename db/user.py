@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from __init__ import ORMBase
+from orthus.db import ORMBase
 
 
 class User(ORMBase):
@@ -8,4 +8,5 @@ class User(ORMBase):
     user_id = Column(Integer, primary_key=True)
     email = Column(String)
     password = Column(String)
+    name = Column(String)
     #checks = relationship('Check', backref="host")

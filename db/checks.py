@@ -1,11 +1,11 @@
 import json
 from sqlalchemy import text, ForeignKey, Column, Integer, TIMESTAMP, Enum, String
+from sqlalchemy.orm import joinedload
 from workers import Worker as WorkerClass
 import time
-from __init__ import Session, Mongo, ORMBase
+from orthus.db import Session, Mongo, ORMBase
 from hosts import Host as HostClass
 mongo = Mongo
-session = Session()
 
 
 class Check(ORMBase):
@@ -24,8 +24,10 @@ class Check(ORMBase):
         return "G654hpx5"
 
     def get_workers(self):
+        session = Session()
         workers_list = json.loads(self.workers)
         workers = session.query(WorkerClass).filter(WorkerClass.worker_id.in_(workers_list)).all()
+
         return workers
 
     def args_dict(self):
@@ -39,15 +41,16 @@ class Check(ORMBase):
 
     def update_results(self, results):
         # push results to mongo
-        collection = self.get_mongo_collection()
-        mongo_insert_id = collection.insert({"check_id": self.check_id, "check_time": time.strftime("%s"), "results": results})
+        #collection = self.get_mongo_collection()
+        #mongo_insert_id = collection.insert({"check_id": self.check_id, "check_time": time.strftime("%s"), "results": results})
 
         # update next_check time in MySQL
         self.next_check = text('NOW() + INTERVAL check_interval SECOND')
         self.state = '0'  # -1 = active but never checked, 0 = active and checked 1 = disabled
-        self.last_result_id = mongo_insert_id
+        #self.last_result_id = mongo_insert_id
+        session = Session()
         session.merge(self)
-        session.flush()
+        session.commit()
 
 
 
@@ -57,3 +60,11 @@ class Check(ORMBase):
     #     self.state = state
     #     self.check_interval = check_interval
     #     self.next_check = next_check
+
+
+
+def get_rotten_checks():
+    s = Session()
+    rotten_checks = s.query(Check).filter("next_check<now()").options(joinedload('host')).all()
+    s.close()
+    return rotten_checks

@@ -30,6 +30,7 @@ def child_handler(task_queue):
             url = 'http://%s/check/%s' % (worker.address, check.plugin)
             try:
                 r = requests.get(url, params=check.args_dict(), timeout=WORKER_TIMEOUT)
+
                 (retcode, data) = r.json()
                 check_results.append({
                     'worker_id': worker.worker_id,

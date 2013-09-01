@@ -1,5 +1,8 @@
 from pyramid.config import Configurator
 from pyramid_beaker import BeakerSessionFactoryConfig
+import sys
+import os
+sys.path.append('%s/../../../' % os.path.dirname(__file__))
 
 
 def main(global_config, **settings):
@@ -10,7 +13,7 @@ def main(global_config, **settings):
 
     # Jinja templates here
     config.include('pyramid_jinja2')
-    config.add_jinja2_search_path("hosthealth:templates")
+    config.add_jinja2_search_path("www:templates")
 
     # Sessions here
     config.include("pyramid_beaker")

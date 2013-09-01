@@ -1,18 +1,19 @@
-#!/usr/bin/python -u
+#!/usr/bin/env python
 # Orthus Core daemon
 from time import sleep
 import daemon
 import lockfile
 import signal
 import os
+import sys
+sys.path.append('%s/../../' % os.path.dirname(__file__))
 import logger
 from child import child_handler
-from db import get_rotten_checks
 from multiprocessing import Process, active_children, Queue
+from orthus.db.checks import get_rotten_checks
 
-
-#STDOUT = sys.stdout
-STDOUT = open('/tmp/stdout', mode='a', buffering=0)
+STDOUT = sys.stdout
+#STDOUT = open('/tmp/stdout', mode='a', buffering=0)
 STDERR = STDOUT
 MAX_CHLD = 1
 PIDFILE = '/tmp/orhus_core.pid'

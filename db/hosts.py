@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship, backref
-from __init__ import ORMBase
+from orthus.db import ORMBase
 
 
 class Host(ORMBase):
